@@ -81,26 +81,26 @@ prepare() {
   ln -s ../mpfr-${_mpfrver} mpfr
 
   rm -rf intl/canonicalize.c intl/canonicalize.h intl/relocatex.c intl/relocatex.h || true
-  patch -p1 -i ${srcdir}/0001-gcc-5-branch-gfortran-incorrect-reading-of-values-fr.patch || true
+  #patch -p1 -i ${srcdir}/0001-gcc-5-branch-gfortran-incorrect-reading-of-values-fr.patch || true
   patch -p1 -i ${srcdir}/0002-Relocate-libintl.patch
-  patch -p1 -i ${srcdir}/0003-Windows-Follow-Posix-dir-exists-semantics-more-close.patch
+  #patch -p1 -i ${srcdir}/0003-Windows-Follow-Posix-dir-exists-semantics-more-close.patch
   patch -p1 -i ${srcdir}/0004-Windows-Use-not-in-progpath-and-leave-case-as-is.patch
   patch -p1 -i ${srcdir}/0005-Windows-Don-t-ignore-native-system-header-dir.patch
   patch -p1 -i ${srcdir}/0006-gcc-6-branch-Windows-New-feature-to-allow-overriding.patch
-  patch -p1 -i ${srcdir}/0007-Build-EXTRA_GNATTOOLS-for-Ada.patch
+  #patch -p1 -i ${srcdir}/0007-Build-EXTRA_GNATTOOLS-for-Ada.patch
   patch -p1 -i ${srcdir}/0008-Prettify-linking-no-undefined.patch
   patch -p1 -i ${srcdir}/0009-gcc-make-xmmintrin-header-cplusplus-compatible-depre.patch
-  patch -p1 -i ${srcdir}/0010-Fix-using-large-PCH.patch
-  patch -p1 -i ${srcdir}/0011-Enable-shared-gnat-implib.patch
-  patch -p1 -i ${srcdir}/0013-MinGW-w64-Enable-shared-gnat.patch
-  patch -p1 -i ${srcdir}/0014-gcc-6-branch-clone_function_name_1-Retain-any-stdcall-suffix.patch
-  patch -p1 -i ${srcdir}/0015-Force-linking-to-libgcc_s_dw2-1.dll-deprecated.patch
-  patch -p1 -i ${srcdir}/0016-disable-weak-refs-in-libstdc++.patch
-  patch -p0 -i ${srcdir}/0017-diagnostic-color.patch
-  patch -p1 -i ${srcdir}/0018-PR-77333-Set-clone-call-fntype-to-callee-type.patch
-  patch -p1 -i ${srcdir}/0140-gcc-6-Enable-std-experimental-filesystem.patch
-  patch -p1 -i ${srcdir}/0130-libstdc++-in-out.patch
-  patch -p1 -i ${srcdir}/gcc7-pr79665.patch
+  #patch -p1 -i ${srcdir}/0010-Fix-using-large-PCH.patch
+  #patch -p1 -i ${srcdir}/0011-Enable-shared-gnat-implib.patch
+  #patch -p1 -i ${srcdir}/0013-MinGW-w64-Enable-shared-gnat.patch
+  #patch -p1 -i ${srcdir}/0014-gcc-6-branch-clone_function_name_1-Retain-any-stdcall-suffix.patch
+  #patch -p1 -i ${srcdir}/0015-Force-linking-to-libgcc_s_dw2-1.dll-deprecated.patch
+  #patch -p1 -i ${srcdir}/0016-disable-weak-refs-in-libstdc++.patch
+  #patch -p0 -i ${srcdir}/0017-diagnostic-color.patch
+  #patch -p1 -i ${srcdir}/0018-PR-77333-Set-clone-call-fntype-to-callee-type.patch
+  #patch -p1 -i ${srcdir}/0140-gcc-6-Enable-std-experimental-filesystem.patch
+  #patch -p1 -i ${srcdir}/0130-libstdc++-in-out.patch
+  #patch -p1 -i ${srcdir}/gcc7-pr79665.patch
 
   # 0004-Windows-Don-t-ignore-native-system-header-dir.patch .. but isn't!
   sed -i 's/${prefix}\/mingw\//${prefix}\//g' configure
@@ -139,7 +139,7 @@ mkdir -p ${srcdir}/build-${MINGW_CHOST} && cd ${srcdir}/build-${MINGW_CHOST}
     --enable-bootstrap \
     --with-arch=${_arch} \
     --with-tune=generic \
-    --enable-languages=c,lto,c++,objc,obj-c++,fortran,ada \
+    --enable-languages=c,lto,c++ \
     --enable-shared --enable-static \
     --enable-libatomic \
     --enable-threads=${_threads} \
@@ -160,7 +160,6 @@ mkdir -p ${srcdir}/build-${MINGW_CHOST} && cd ${srcdir}/build-${MINGW_CHOST}
     --disable-symvers \
     --with-libiconv \
     --with-system-zlib \
-    --with-{gmp,mpfr,mpc,isl}=${MINGW_PREFIX} \
     --with-pkgversion="Rev${pkgrel}, Built by MSYS2 project" \
     --with-bugurl="https://sourceforge.net/projects/msys2" \
     --with-gnu-as --with-gnu-ld \
@@ -180,10 +179,10 @@ mkdir -p ${srcdir}/build-${MINGW_CHOST} && cd ${srcdir}/build-${MINGW_CHOST}
   rm -rf ${srcdir}${MINGW_PREFIX}
 
   make -j1 DESTDIR=${srcdir} install
-  mv ${srcdir}${MINGW_PREFIX}/lib/gcc/${MINGW_CHOST}/${pkgver}/adalib/*.dll ${srcdir}${MINGW_PREFIX}/bin/
+  #mv ${srcdir}${MINGW_PREFIX}/lib/gcc/${MINGW_CHOST}/${pkgver}/adalib/*.dll ${srcdir}${MINGW_PREFIX}/bin/
 }
 
-package_mingw-w64-gcc-libs() {
+package_mingw-w64-gcc-libs-base() {
   pkgdesc="GNU Compiler Collection (libraries) for MinGW-w64"
   license=('GPL-3.0')
 
@@ -219,7 +218,7 @@ package_mingw-w64-gcc-libs() {
   done
 }
 
-package_mingw-w64-gcc()
+package_mingw-w64-gcc-base()
 {
   pkgdesc="GNU Compiler Collection (C,C++,OpenMP) for MinGW-w64"
   depends=("mingw-w64-cross-binutils"
