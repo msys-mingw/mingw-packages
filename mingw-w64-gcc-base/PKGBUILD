@@ -78,7 +78,7 @@ prepare() {
   ln -s ../isl-${_islver} isl
   ln -s ../cloog-${_cloogver} cloog
   ln -s ../mpc-${_mpcver} mpc
-  ln -s ../mpc-${_mpfrver} mpfr
+  ln -s ../mpfr-${_mpfrver} mpfr
 
   rm -rf intl/canonicalize.c intl/canonicalize.h intl/relocatex.c intl/relocatex.h || true
   patch -p1 -i ${srcdir}/0001-gcc-5-branch-gfortran-incorrect-reading-of-values-fr.patch || true
