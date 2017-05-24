@@ -1,0 +1,340 @@
+_realname=gcc
+pkgbase=mingw-w64-${_realname}
+_islver=0.18
+_cloogver=0.18.1
+_mpcver=1.0.3
+_mpfrver=3.1.5
+
+pkgname=("${MINGW_PACKAGE_PREFIX}-${_realname}-base"
+         "${MINGW_PACKAGE_PREFIX}-${_realname}-libs-base")
+pkgver=7.1.0
+pkgrel=1
+pkgdesc="Cross GCC for the MinGW-w64 cross-compiler"
+arch=('any')
+url="https://gcc.gnu.org"
+license=('GPL-3.0')
+groups=("${MINGW_PACKAGE_PREFIX}-toolchain")
+depends=("mingw-w64-cross-zlib"
+         "mingw-w64-cross-crt-git"
+         "mingw-w64-cross-winpthreads-git"
+         "mingw-w64-cross-headers-git"
+         "mingw-w64-cross-binutils")
+options=('staticlibs' '!emptydirs') # '!strip' 'debug')
+source=("ftp://gcc.gnu.org/pub/${_realname}/releases/${_realname}-${pkgver}/${_realname}-${pkgver}.tar.bz2"
+        "http://isl.gforge.inria.fr/isl-${_islver}.tar.bz2"
+        "http://www.bastoul.net/cloog/pages/download/cloog-${_cloogver}.tar.gz"
+        "https://ftp.gnu.org/gnu/mpc/mpc-${_mpcver}.tar.gz"
+        "https://ftp.gnu.org/gnu/mpfr/mpfr-${_mpfrver}.tar.xz"
+        "0001-gcc-5-branch-gfortran-incorrect-reading-of-values-fr.patch"
+        "0002-Relocate-libintl.patch"
+        "0003-Windows-Follow-Posix-dir-exists-semantics-more-close.patch"
+        "0004-Windows-Use-not-in-progpath-and-leave-case-as-is.patch"
+        "0005-Windows-Don-t-ignore-native-system-header-dir.patch"
+        "0006-gcc-6-branch-Windows-New-feature-to-allow-overriding.patch"
+        "0007-Build-EXTRA_GNATTOOLS-for-Ada.patch"
+        "0008-Prettify-linking-no-undefined.patch"
+        "0009-gcc-make-xmmintrin-header-cplusplus-compatible-depre.patch"
+        "0010-Fix-using-large-PCH.patch"
+        "0011-Enable-shared-gnat-implib.patch"
+        "0013-MinGW-w64-Enable-shared-gnat.patch"
+        "0014-gcc-6-branch-clone_function_name_1-Retain-any-stdcall-suffix.patch"
+        "0015-Force-linking-to-libgcc_s_dw2-1.dll-deprecated.patch"
+        "0016-disable-weak-refs-in-libstdc++.patch"
+        "0017-diagnostic-color.patch"
+        "0018-PR-77333-Set-clone-call-fntype-to-callee-type.patch"
+        "0140-gcc-6-Enable-std-experimental-filesystem.patch"
+        "0130-libstdc++-in-out.patch"
+        "gcc7-pr79665.patch")
+sha256sums=('8a8136c235f64c6fef69cac0d73a46a1a09bb250776a050aec8f9fc880bebc17'
+            '6b8b0fd7f81d0a957beb3679c81bbb34ccc7568d5682844d8924424a0dadcb1b'
+            '02500a4edd14875f94fe84cbeda4290425cb0c1c2474c6f75d75a303d64b4196'
+            '617decc6ea09889fb08ede330917a00b16809b8db88c29c31bfbb49cbf88ecc3'
+            '015fde82b3979fbe5f83501986d328331ba8ddf008c1ff3da3c238f49ca062bc'
+            '49a5e264e611de7f2388f01ba649ec22cf3ae1cde3ba45082a7d72294c2f4fd7'
+            '83e9c6f76f728ae3e2f2eabb588b0d6cea7a3eda03cd5e77aed9d613143b7348'
+            '6033acda690786397059536787a6577e1a9f2b39f8a66276821917066094f43c'
+            '388f423a67e4be6f547ca7e340ff8ee4c78b1ed83f3fd698daa409e309911807'
+            '86fc77d5a6c137a9aca65ad6ba56653fb41b05636b763ce2c0b0b14d617c9de4'
+            'd1e10cd2ef5594c34acead334bb93af500e00699ba673edc8916da22a572677d'
+            '691bc4044726b4f7980be64b1296278a1ad9a19c8e1bec236d48b1277a1a64ba'
+            'ec6800816632234afc35ce40542a6aab3ee76e8514a7d0cb4171fd874353ecd7'
+            '0eaee0e1201f4f85ea20756432a9d51531e0e859f6f121276684e2b63b2ee315'
+            '0decbbebda7ceac91da5d3dec9b7330f406a4358fa150560f08ff6f54739035f'
+            '8faff8e503a617f283270f411399a8bcacda3ab62b4072dedf117e108af4844a'
+            'bab73267116024d0b0d2a9dcb78a0ad839bb6a232f1ebbee7ed8fd54c8d71087'
+            '60a58ed41389691a68ef4b7d47a0328df4d28d26e6c680a6b06b31191481ca65'
+            '262c6fb0f6c9951d69e4c2dcc27949aa8f2cca8e672faf66740a7dbba4a4cd2c'
+            '09f27e0dae8d962f2a46a33a9891f2d14303629bb40f91ed8c5824c90da653a9'
+            'af291b64812ed6d1d1d357c9fb5fe5a520154aa072f342a72dc9a190732952e0'
+            '62dccf1e2e85068ee1060af24162c760ca5d76b0d9690efa62fac9d959b6aac6'
+            '4c190efddb73a3e0a7163653e60f299e66dfb172f4d0f2f775fdd80713c1b845'
+            '0e24c6955f53a6c84cca9a8c9a372054bd90d5b1a2c6c3f29e36cb350f973b5d'
+            '24524102ba4a4360881e45aea4c0b8fd2f97969f00c0df05e714a9ee6c6b913d')
+
+prepare() {
+  cd ${srcdir}/gcc-${pkgver}
+
+  # link isl/cloog for in-tree builds
+  ln -s ../isl-${_islver} isl
+  ln -s ../cloog-${_cloogver} cloog
+  ln -s ../mpc-${_mpcver} mpc
+  ln -s ../mpc-${_mpfrver} mpfr
+
+  rm -rf intl/canonicalize.c intl/canonicalize.h intl/relocatex.c intl/relocatex.h || true
+  patch -p1 -i ${srcdir}/0001-gcc-5-branch-gfortran-incorrect-reading-of-values-fr.patch || true
+  patch -p1 -i ${srcdir}/0002-Relocate-libintl.patch
+  patch -p1 -i ${srcdir}/0003-Windows-Follow-Posix-dir-exists-semantics-more-close.patch
+  patch -p1 -i ${srcdir}/0004-Windows-Use-not-in-progpath-and-leave-case-as-is.patch
+  patch -p1 -i ${srcdir}/0005-Windows-Don-t-ignore-native-system-header-dir.patch
+  patch -p1 -i ${srcdir}/0006-gcc-6-branch-Windows-New-feature-to-allow-overriding.patch
+  patch -p1 -i ${srcdir}/0007-Build-EXTRA_GNATTOOLS-for-Ada.patch
+  patch -p1 -i ${srcdir}/0008-Prettify-linking-no-undefined.patch
+  patch -p1 -i ${srcdir}/0009-gcc-make-xmmintrin-header-cplusplus-compatible-depre.patch
+  patch -p1 -i ${srcdir}/0010-Fix-using-large-PCH.patch
+  patch -p1 -i ${srcdir}/0011-Enable-shared-gnat-implib.patch
+  patch -p1 -i ${srcdir}/0013-MinGW-w64-Enable-shared-gnat.patch
+  patch -p1 -i ${srcdir}/0014-gcc-6-branch-clone_function_name_1-Retain-any-stdcall-suffix.patch
+  patch -p1 -i ${srcdir}/0015-Force-linking-to-libgcc_s_dw2-1.dll-deprecated.patch
+  patch -p1 -i ${srcdir}/0016-disable-weak-refs-in-libstdc++.patch
+  patch -p0 -i ${srcdir}/0017-diagnostic-color.patch
+  patch -p1 -i ${srcdir}/0018-PR-77333-Set-clone-call-fntype-to-callee-type.patch
+  patch -p1 -i ${srcdir}/0140-gcc-6-Enable-std-experimental-filesystem.patch
+  patch -p1 -i ${srcdir}/0130-libstdc++-in-out.patch
+  patch -p1 -i ${srcdir}/gcc7-pr79665.patch
+
+  # 0004-Windows-Don-t-ignore-native-system-header-dir.patch .. but isn't!
+  sed -i 's/${prefix}\/mingw\//${prefix}\//g' configure
+
+  # change hardcoded /mingw prefix to the real prefix .. isn't this rubbish?
+  # it might work at build time and could be important there but beyond that?!
+  local MINGW_NATIVE_PREFIX=$(cygpath -am ${MINGW_PREFIX}/${MINGW_CHOST})
+  sed -i "s#\\/mingw\\/#${MINGW_NATIVE_PREFIX//\//\\/}\\/#g" gcc/config/i386/mingw32.h
+}
+
+build() {
+  [[ -d ${srcdir}/build-${MINGW_CHOST} ]] && rm -rf ${srcdir}/build-${MINGW_CHOST}
+mkdir -p ${srcdir}/build-${MINGW_CHOST} && cd ${srcdir}/build-${MINGW_CHOST}
+
+  case "${CARCH}" in
+    i686)
+      local _conf="--disable-sjlj-exceptions --with-dwarf2"
+      LDFLAGS+=" -Wl,--large-address-aware"
+      local _arch=i686
+    ;;
+
+    x86_64)
+      local _arch=x86-64
+      local _conf=""
+    ;;
+  esac
+
+  ../${_realname}-${pkgver}/configure \
+    --prefix=${MINGW_PREFIX} \
+    --with-local-prefix=${MINGW_PREFIX}/local \
+    --build=${MINGW_CHOST} \
+    --host=${MINGW_CHOST} \
+    --target=${MINGW_CHOST} \
+    --with-native-system-header-dir=${MINGW_PREFIX}/${MINGW_CHOST}/include \
+    --libexecdir=${MINGW_PREFIX}/lib \
+    --enable-bootstrap \
+    --with-arch=${_arch} \
+    --with-tune=generic \
+    --enable-languages=c,lto,c++,objc,obj-c++,fortran,ada \
+    --enable-shared --enable-static \
+    --enable-libatomic \
+    --enable-threads=${_threads} \
+    --enable-graphite \
+    --enable-fully-dynamic-string \
+    --enable-libstdcxx-time=yes \
+    --disable-libstdcxx-pch \
+    --disable-libstdcxx-debug \
+    --disable-isl-version-check \
+    --enable-lto \
+    --enable-libgomp \
+    --disable-multilib \
+    --enable-checking=release \
+    --disable-rpath \
+    --disable-win32-registry \
+    --disable-nls \
+    --disable-werror \
+    --disable-symvers \
+    --with-libiconv \
+    --with-system-zlib \
+    --with-{gmp,mpfr,mpc,isl}=${MINGW_PREFIX} \
+    --with-pkgversion="Rev${pkgrel}, Built by MSYS2 project" \
+    --with-bugurl="https://sourceforge.net/projects/msys2" \
+    --with-gnu-as --with-gnu-ld \
+    ${_conf}
+    #--enable-libitm
+    #--enable-objc-gc
+
+  # While we're debugging -fopenmp problems at least.
+  # .. we may as well not strip anything.
+  if check_option "strip" "n"; then
+    sed -i 's,^STRIP = .*$,STRIP = true,g'                   Makefile
+    sed -i 's,^STRIP_FOR_TARGET=.*$,STRIP_FOR_TARGET=true,g' Makefile
+  fi
+
+  make all
+
+  rm -rf ${srcdir}${MINGW_PREFIX}
+
+  make -j1 DESTDIR=${srcdir} install
+  mv ${srcdir}${MINGW_PREFIX}/lib/gcc/${MINGW_CHOST}/${pkgver}/adalib/*.dll ${srcdir}${MINGW_PREFIX}/bin/
+}
+
+package_mingw-w64-gcc-libs() {
+  pkgdesc="GNU Compiler Collection (libraries) for MinGW-w64"
+  license=('GPL-3.0')
+
+  cd ${srcdir}/build-${MINGW_CHOST}
+
+  make -C $CHOST/libgcc DESTDIR=${pkgdir} install-shared
+  rm ${pkgdir}/${_libdir}/libgcc_eh.a
+
+  for lib in libatomic \
+             libcilkrts \
+             libgfortran \
+             libgo \
+             libgomp \
+             libitm \
+             libquadmath \
+             libsanitizer/{a,l,ub}san \
+             libstdc++-v3/src \
+             libvtv; do
+    make -C ${MINGW_CHOST}/$lib DESTDIR=${pkgdir} install-toolexeclibLTLIBRARIES
+  done
+
+  make -C ${MINGW_CHOST}/libobjc DESTDIR=${pkgdir} install-libs
+
+  make -C ${MINGW_CHOST}/libstdc++-v3/po DESTDIR=${pkgdir} install
+
+  make -C ${MINGW_CHOST}/libmpx DESTDIR=${pkgdir} install
+  rm ${pkgdir}${MINGW_PREFIX}/lib/libmpx.spec
+
+  for lib in libgomp \
+             libitm \
+             libquadmath; do
+    make -C ${MINGW_CHOST}/$lib DESTDIR=${pkgdir} install-info
+  done
+}
+
+package_mingw-w64-gcc()
+{
+  pkgdesc="GNU Compiler Collection (C,C++,OpenMP) for MinGW-w64"
+  depends=("mingw-w64-cross-binutils"
+           "mingw-w64-cross-crt-git"
+           "mingw-w64-cross-headers-git"
+           "mingw-w64-cross-isl"
+           "mingw-w64-cross-libiconv"
+           "mingw-w64-cross-mpc"
+           "mingw-w64-cross-${_realname}-libs=${pkgver}-${pkgrel}"
+           "mingw-w64-cross-windows-default-manifest"
+           "mingw-w64-cross-winpthreads-git"
+           "mingw-w64-cross-zlib")
+  provides=("${MINGW_PACKAGE_PREFIX}-${_realname}-base")
+  conflicts=("${MINGW_PACKAGE_PREFIX}-${_realname}-base")
+
+  make -C gcc DESTDIR=${pkgdir} install-driver install-cpp install-gcc-ar \
+    c++.install-common install-headers install-plugin install-lto-wrapper
+
+  make -C ${MINGW_CHOST}/libgcc DESTDIR=${pkgdir} install
+
+  make -C ${MINGW_CHOST}/libstdc++-v3/src DESTDIR=${pkgdir} install
+  make -C ${MINGW_CHOST}/libstdc++-v3/include DESTDIR=${pkgdir} install
+  make -C ${MINGW_CHOST}/libstdc++-v3/libsupc++ DESTDIR=${pkgdir} install
+  make -C ${MINGW_CHOST}/libstdc++-v3/python DESTDIR=${pkgdir} install
+
+  make DESTDIR=${pkgdir} install-libcc1
+  install -d ${pkgdir}${MINGW_PREFIX}/share/gdb/auto-load/usr/lib
+  mv ${pkgdir}${MINGW_PREFIX}/lib/libstdc++*-gdb.py \
+    ${pkgdir}${MINGW_PREFIX}/share/gdb/auto-load/usr/lib/
+  rm ${pkgdir}${MINGW_PREFIX}/lib/libstdc++.*
+
+  make DESTDIR=${pkgdir} install-fixincludes
+  make -C gcc DESTDIR=${pkgdir} install-mkheaders
+
+  make -C lto-plugin DESTDIR=${pkgdir} install
+  install -dm755 ${pkgdir}${MINGW_PREFIX}/lib/bfd-plugins/
+  cp ${MINGW_PREFIX}/lib/gcc/${MINGW_CHOST}/${pkgver}/liblto_plugin.dll \
+    ${pkgdir}${MINGW_PREFIX}/lib/bfd-plugins/
+
+  make -C ${MINGW_CHOST}/libcilkrts DESTDIR=${pkgdir} install-nodist_toolexeclibHEADERS \
+    install-nodist_cilkincludeHEADERS
+  make -C ${MINGW_CHOST}/libgomp DESTDIR=${pkgdir} install-nodist_toolexeclibHEADERS \
+    install-nodist_libsubincludeHEADERS
+  make -C ${MINGW_CHOST}/libitm DESTDIR=${pkgdir} install-nodist_toolexeclibHEADERS
+  make -C ${MINGW_CHOST}/libquadmath DESTDIR=${pkgdir} install-nodist_libsubincludeHEADERS
+  make -C ${MINGW_CHOST}/libsanitizer DESTDIR=${pkgdir} install-nodist_{saninclude,toolexeclib}HEADERS
+  make -C ${MINGW_CHOST}/libsanitizer/asan DESTDIR=${pkgdir} install-nodist_toolexeclibHEADERS
+  make -C ${MINGW_CHOST}/libmpx DESTDIR=${pkgdir} install-nodist_toolexeclibHEADERS
+
+  make -C libiberty DESTDIR=${pkgdir} install
+  # install PIC version of libiberty
+  install -m644 ${srcdir}/gcc-build/libiberty/pic/libiberty.a ${pkgdir}${MINGW_PREFIX}/lib
+
+  make -C gcc DESTDIR=${pkgdir} install-man install-info
+  rm ${pkgdir}${MINGW_PREFIX}/share/man/man1/{gccgo,gfortran}.1
+  rm ${pkgdir}${MINGW_PREFIX}/share/info/{gccgo,gfortran,gnat-style,gnat_rm,gnat_ugn}.info
+
+  make -C libcpp DESTDIR=${pkgdir} install
+  make -C gcc DESTDIR=${pkgdir} install-po
+
+  # many packages expect this symlink
+  ln -s gcc ${pkgdir}${MINGW_PREFIX}/bin/cc
+
+  # POSIX conformance launcher scripts for c89 and c99
+  cat > ${pkgdir}${MINGW_PREFIX}/bin/c89 <<"EOF"
+#!/bin/sh
+fl="-std=c89"
+for opt; do
+  case "$opt" in
+    -ansi|-std=c89|-std=iso9899:1990) fl="";;
+    -std=*) echo "`basename $0` called with non ANSI/ISO C option $opt" >&2
+	    exit 1;;
+  esac
+done
+exec gcc $fl ${1+"$@"}
+EOF
+
+  cat > ${pkgdir}${MINGW_PREFIX}/bin/c99 <<"EOF"
+#!/bin/sh
+fl="-std=c99"
+for opt; do
+  case "$opt" in
+    -std=c99|-std=iso9899:1999) fl="";;
+    -std=*) echo "`basename $0` called with non ISO C99 option $opt" >&2
+	    exit 1;;
+  esac
+done
+exec gcc $fl ${1+"$@"}
+EOF
+
+  chmod 755 $pkgdir/usr/bin/c{8,9}9
+
+  # install the libstdc++ man pages
+  make -C $CHOST/libstdc++-v3/doc DESTDIR=$pkgdir doc-install-man
+
+  # Install Runtime Library Exception
+  install -d ${pkgdir}${MINGW_PREFIX}/share/licenses/gcc/
+  ln -s ../gcc-libs/RUNTIME.LIBRARY.EXCEPTION ${pkgdir}${MINGW_PREFIX}/share/licenses/gcc/
+
+}
+
+# 32-bit wrappers
+package_mingw-w64-i686-gcc-libs-base() {
+  package_mingw-w64-gcc-libs-base
+}
+
+package_mingw-w64-i686-gcc-base() {
+  package_mingw-w64-gcc-base
+}
+
+# 64-bit wrappers
+package_mingw-w64-x86_64-gcc-libs-base() {
+  package_mingw-w64-gcc-libs-base
+}
+
+package_mingw-w64-x86_64-gcc-base() {
+  package_mingw-w64-gcc-base
+}
