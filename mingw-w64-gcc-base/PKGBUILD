@@ -18,7 +18,8 @@ depends=("mingw-w64-cross-zlib"
          "mingw-w64-cross-crt-git"
          "mingw-w64-cross-winpthreads-git"
          "mingw-w64-cross-headers-git"
-         "mingw-w64-cross-binutils")
+         "mingw-w64-cross-binutils"
+         "doxygen") #doxygen for libstdc++
 options=('staticlibs' '!emptydirs') # '!strip' 'debug')
 source=("ftp://gcc.gnu.org/pub/${_realname}/releases/${_realname}-${pkgver}/${_realname}-${pkgver}.tar.bz2"
         "http://isl.gforge.inria.fr/isl-${_islver}.tar.bz2"
