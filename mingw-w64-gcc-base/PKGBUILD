@@ -301,7 +301,7 @@ done
 exec gcc $fl ${1+"$@"}
 EOF
 
-  chmod 755 $pkgdir/usr/bin/c{8,9}9
+  chmod 755 ${pkgdir}${MINGW_PREFIX}/c{8,9}9
 
   # install the libstdc++ man pages
   make -C ${MINGW_CHOST}/libstdc++-v3/doc DESTDIR=$pkgdir doc-install-man
