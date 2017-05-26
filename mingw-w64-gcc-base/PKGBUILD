@@ -190,7 +190,7 @@ package_mingw-w64-gcc-libs-base() {
   cd ${srcdir}/build-${MINGW_CHOST}
 
   make -C $CHOST/libgcc DESTDIR=${pkgdir} install-shared
-  rm ${pkgdir}/${_libdir}/libgcc_eh.a
+  #rm ${pkgdir}/${_libdir}/libgcc_eh.a
 
   for lib in libatomic \
              libcilkrts \
