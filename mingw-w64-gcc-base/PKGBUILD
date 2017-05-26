@@ -234,6 +234,8 @@ package_mingw-w64-gcc-base()
   provides=("${MINGW_PACKAGE_PREFIX}-${_realname}-base")
   conflicts=("${MINGW_PACKAGE_PREFIX}-${_realname}-base")
 
+  cd ${srcdir}/build-${MINGW_CHOST}
+
   make -C gcc DESTDIR=${pkgdir} install-driver install-cpp install-gcc-ar \
     c++.install-common install-headers install-plugin install-lto-wrapper
 
@@ -255,26 +257,16 @@ package_mingw-w64-gcc-base()
 
   make -C lto-plugin DESTDIR=${pkgdir} install
   install -dm755 ${pkgdir}${MINGW_PREFIX}/lib/bfd-plugins/
-  cp ${MINGW_PREFIX}/lib/gcc/${MINGW_CHOST}/${pkgver}/liblto_plugin.dll \
+  cp ${pkgdir}${MINGW_PREFIX}/lib/gcc/${MINGW_CHOST}/${pkgver}/liblto_plugin-0.dll \
     ${pkgdir}${MINGW_PREFIX}/lib/bfd-plugins/
+  mv ${pkgdir}/libgcc*.dll \
+    ${pkgdir}${MINGW_PREFIX}/bin
 
-  make -C ${MINGW_CHOST}/libcilkrts DESTDIR=${pkgdir} install-nodist_toolexeclibHEADERS \
-    install-nodist_cilkincludeHEADERS
   make -C ${MINGW_CHOST}/libgomp DESTDIR=${pkgdir} install-nodist_toolexeclibHEADERS \
     install-nodist_libsubincludeHEADERS
-  make -C ${MINGW_CHOST}/libitm DESTDIR=${pkgdir} install-nodist_toolexeclibHEADERS
   make -C ${MINGW_CHOST}/libquadmath DESTDIR=${pkgdir} install-nodist_libsubincludeHEADERS
-  make -C ${MINGW_CHOST}/libsanitizer DESTDIR=${pkgdir} install-nodist_{saninclude,toolexeclib}HEADERS
-  make -C ${MINGW_CHOST}/libsanitizer/asan DESTDIR=${pkgdir} install-nodist_toolexeclibHEADERS
-  make -C ${MINGW_CHOST}/libmpx DESTDIR=${pkgdir} install-nodist_toolexeclibHEADERS
-
-  make -C libiberty DESTDIR=${pkgdir} install
-  # install PIC version of libiberty
-  install -m644 ${srcdir}/gcc-build/libiberty/pic/libiberty.a ${pkgdir}${MINGW_PREFIX}/lib
 
   make -C gcc DESTDIR=${pkgdir} install-man install-info
-  rm ${pkgdir}${MINGW_PREFIX}/share/man/man1/{gccgo,gfortran}.1
-  rm ${pkgdir}${MINGW_PREFIX}/share/info/{gccgo,gfortran,gnat-style,gnat_rm,gnat_ugn}.info
 
   make -C libcpp DESTDIR=${pkgdir} install
   make -C gcc DESTDIR=${pkgdir} install-po
@@ -312,7 +304,7 @@ EOF
   chmod 755 $pkgdir/usr/bin/c{8,9}9
 
   # install the libstdc++ man pages
-  make -C $CHOST/libstdc++-v3/doc DESTDIR=$pkgdir doc-install-man
+  make -C ${MINGW_CHOST}/libstdc++-v3/doc DESTDIR=$pkgdir doc-install-man
 
   # Install Runtime Library Exception
   install -d ${pkgdir}${MINGW_PREFIX}/share/licenses/gcc/
