@@ -210,13 +210,7 @@ package_mingw-w64-gcc-libs-base() {
 package_mingw-w64-gcc-base()
 {
   pkgdesc="GNU Compiler Collection (C,C++,OpenMP) for MinGW-w64"
-  depends=("mingw-w64-cross-binutils"
-           "mingw-w64-cross-crt-git"
-           "mingw-w64-cross-headers-git"
-           "mingw-w64-cross-${_realname}-libs=${pkgver}-${pkgrel}"
-           "mingw-w64-cross-windows-default-manifest"
-           "mingw-w64-cross-winpthreads-git"
-           "mingw-w64-cross-zlib")
+  depends=("mingw-w64-${_realname}-libs=${pkgver}-${pkgrel}")
   provides=("${MINGW_PACKAGE_PREFIX}-${_realname}-base")
   conflicts=("${MINGW_PACKAGE_PREFIX}-${_realname}-base")
 
