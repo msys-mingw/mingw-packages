@@ -31,19 +31,19 @@ source=("ftp://gcc.gnu.org/pub/${_realname}/releases/${_realname}-${pkgver}/${_r
         "0003-Windows-Follow-Posix-dir-exists-semantics-more-close.patch"
         "0004-Windows-Use-not-in-progpath-and-leave-case-as-is.patch"
         "0005-Windows-Don-t-ignore-native-system-header-dir.patch"
-        "0006-gcc-6-branch-Windows-New-feature-to-allow-overriding.patch"
+        "0006-gcc-7-branch-Windows-New-feature-to-allow-overriding.patch"
         "0007-Build-EXTRA_GNATTOOLS-for-Ada.patch"
         "0008-Prettify-linking-no-undefined.patch"
         "0009-gcc-make-xmmintrin-header-cplusplus-compatible-depre.patch"
         "0010-Fix-using-large-PCH.patch"
         "0011-Enable-shared-gnat-implib.patch"
         "0013-MinGW-w64-Enable-shared-gnat.patch"
-        "0014-gcc-6-branch-clone_function_name_1-Retain-any-stdcall-suffix.patch"
+        "0014-gcc-7-branch-clone_function_name_1-Retain-any-stdcall-suffix.patch"
         "0015-Force-linking-to-libgcc_s_dw2-1.dll-deprecated.patch"
         "0016-disable-weak-refs-in-libstdc++.patch"
         "0017-diagnostic-color.patch"
         "0018-PR-77333-Set-clone-call-fntype-to-callee-type.patch"
-        "0140-gcc-6-Enable-std-experimental-filesystem.patch"
+        "0017-gcc-7-branch-Enable-std-experimental-filesystem.patch"
         "0130-libstdc++-in-out.patch"
         "gcc7-pr79665.patch")
 sha256sums=('8a8136c235f64c6fef69cac0d73a46a1a09bb250776a050aec8f9fc880bebc17'
@@ -87,19 +87,19 @@ prepare() {
   #patch -p1 -i ${srcdir}/0003-Windows-Follow-Posix-dir-exists-semantics-more-close.patch
   patch -p1 -i ${srcdir}/0004-Windows-Use-not-in-progpath-and-leave-case-as-is.patch
   patch -p1 -i ${srcdir}/0005-Windows-Don-t-ignore-native-system-header-dir.patch
-  patch -p1 -i ${srcdir}/0006-gcc-6-branch-Windows-New-feature-to-allow-overriding.patch
+  patch -p1 -i ${srcdir}/0006-gcc-7-branch-Windows-New-feature-to-allow-overriding.patch
   #patch -p1 -i ${srcdir}/0007-Build-EXTRA_GNATTOOLS-for-Ada.patch
   patch -p1 -i ${srcdir}/0008-Prettify-linking-no-undefined.patch
   patch -p1 -i ${srcdir}/0009-gcc-make-xmmintrin-header-cplusplus-compatible-depre.patch
   #patch -p1 -i ${srcdir}/0010-Fix-using-large-PCH.patch
   #patch -p1 -i ${srcdir}/0011-Enable-shared-gnat-implib.patch
   #patch -p1 -i ${srcdir}/0013-MinGW-w64-Enable-shared-gnat.patch
-  #patch -p1 -i ${srcdir}/0014-gcc-6-branch-clone_function_name_1-Retain-any-stdcall-suffix.patch
+  patch -p1 -i ${srcdir}/0014-gcc-7-branch-clone_function_name_1-Retain-any-stdcall-suffix.patch
   #patch -p1 -i ${srcdir}/0015-Force-linking-to-libgcc_s_dw2-1.dll-deprecated.patch
   #patch -p1 -i ${srcdir}/0016-disable-weak-refs-in-libstdc++.patch
   #patch -p0 -i ${srcdir}/0017-diagnostic-color.patch
   #patch -p1 -i ${srcdir}/0018-PR-77333-Set-clone-call-fntype-to-callee-type.patch
-  #patch -p1 -i ${srcdir}/0140-gcc-6-Enable-std-experimental-filesystem.patch
+  patch -p1 -i ${srcdir}/0017-gcc-7-branch-Enable-std-experimental-filesystem.patch
   #patch -p1 -i ${srcdir}/0130-libstdc++-in-out.patch
   #patch -p1 -i ${srcdir}/gcc7-pr79665.patch
 
