@@ -1,0 +1,74 @@
+# Maintainer: Alexey Pavlov <alexpux@gmail.com>
+
+_realname=headers
+pkgbase=mingw-w64-${_realname}
+pkgname="${MINGW_PACKAGE_PREFIX}-${_realname}"
+pkgdesc="MinGW-w64 headers for Windows"
+pkgver=5.0.0.4836.670da35c
+pkgrel=1
+arch=('any')
+url="https://mingw-w64.sourceforge.io/"
+license=('ZPL-2.1')
+groups=("${MINGW_PACKAGE_PREFIX}-toolchain")
+provides=("${MINGW_PACKAGE_PREFIX}-${_realname}")
+conflicts=("${MINGW_PACKAGE_PREFIX}-${_realname}")
+options=('!strip' '!libtool' '!emptydirs')
+source=("mingw-w64"::"git+https://git.code.sf.net/p/mingw-w64/mingw-w64"
+        "0003-dxgi-Add-missing-dxgi-1.2-structs-and-interfaces.patch"
+        "0004-d3d11-Add-missing-d3d11-1.1-structs-and-interfaces.patch"
+        "0005-bessel_complex.patch"
+        "0006-processor_format.patch")
+sha256sums=('SKIP'
+            '677642bbb0df3f1e0467f075f24c720657e9ed912a6e69cbf189352271fc09c1'
+            'c6c996b273ee049a2c0b9570f007d2d76a95ff56abb3b147f156e6a221a561ef'
+            '1196f65f87f9f45adb18acab5076436ab7268ac3125f829d42899624f741cd6d'
+            'a47b426d8ab9a109eaac9dadd57f2f7928bd2a1835e3865bb0c3cab213bd36ad')
+
+pkgver() {
+  cd "${srcdir}/mingw-w64"
+  local _major=$(head -n 16 mingw-w64-headers/crt/_mingw_mac.h | grep '__MINGW64_VERSION_MAJOR' | sed -e 's/.* //' | tr '\n' '.' | sed 's/.$/\n/')
+  local _minor=$(head -n 16 mingw-w64-headers/crt/_mingw_mac.h | grep '__MINGW64_VERSION_MINOR' | sed -e 's/.* //' | tr '\n' '.' | sed 's/.$/\n/')
+  local _rev=0
+  printf "%s.%s.%s.%s.%s" ${_major} ${_minor} ${_rev} "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+prepare() {
+  cd ${srcdir}/mingw-w64
+
+  git am --committer-date-is-author-date "${srcdir}/"0003-dxgi-Add-missing-dxgi-1.2-structs-and-interfaces.patch
+  git am --committer-date-is-author-date "${srcdir}/"0004-d3d11-Add-missing-d3d11-1.1-structs-and-interfaces.patch
+  git am --committer-date-is-author-date "${srcdir}/"0005-bessel_complex.patch
+  git am --committer-date-is-author-date "${srcdir}/"0006-processor_format.patch
+
+  cd ${srcdir}/mingw-w64/mingw-w64-headers
+  touch include/windows.*.h include/wincrypt.h include/prsht.h
+}
+
+build() {
+  msg "Configuring ${MINGW_CHOST} headers"
+  [[ -d ${srcdir}/headers-${MINGW_CHOST} ]] && rm -rf ${srcdir}/headers-${MINGW_CHOST}
+  mkdir -p ${srcdir}/headers-${MINGW_CHOST} && cd ${srcdir}/headers-${MINGW_CHOST}
+  ${srcdir}/mingw-w64/mingw-w64-headers/configure \
+    --build=${MINGW_CHOST} \
+    --host=${MINGW_CHOST} \
+    --target=${MINGW_CHOST} \
+    --prefix=${MINGW_PREFIX}/${MINGW_CHOST} \
+    --enable-sdk=all \
+    --enable-secure-api \
+    --enable-idl --without-widl
+}
+
+package() {
+  msg "Installing ${MINGW_CHOST} headers"
+  cd ${srcdir}/headers-${MINGW_CHOST}
+  make DESTDIR=${pkgdir} install
+
+  #rm ${pkgdir}${MINGW_PREFIX}/${MINGW_CHOST}/include/pthread_signal.h
+  #rm ${pkgdir}${MINGW_PREFIX}/${MINGW_CHOST}/include/pthread_time.h
+  #rm ${pkgdir}${MINGW_PREFIX}/${MINGW_CHOST}/include/pthread_unistd.h
+
+  msg "Installing MinGW-w64 licenses"
+  install -Dm644 ${srcdir}/mingw-w64/mingw-w64-headers/ddk/readme.txt ${pkgdir}${MINGW_PREFIX}/share/licenses/${_realname}/ddk-readme.txt
+  install -Dm644 ${srcdir}/mingw-w64/mingw-w64-headers/direct-x/COPYING.LIB ${pkgdir}${MINGW_PREFIX}/share/licenses/${_realname}/direct-x-COPYING.LIB
+  install -Dm644 ${srcdir}/mingw-w64/mingw-w64-headers/direct-x/readme.txt ${pkgdir}${MINGW_PREFIX}/share/licenses/${_realname}/direct-x-readme.txt
+}
