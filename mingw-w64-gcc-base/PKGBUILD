@@ -202,7 +202,6 @@ package_mingw-w64-gcc-libs-base() {
   make -C ${MINGW_CHOST}/libstdc++-v3/po DESTDIR=${pkgdir} install
 
   for lib in libgomp \
-             libitm \
              libquadmath; do
     make -C ${MINGW_CHOST}/$lib DESTDIR=${pkgdir} install-info
   done
