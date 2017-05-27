@@ -45,7 +45,9 @@ source=("ftp://gcc.gnu.org/pub/${_realname}/releases/${_realname}-${pkgver}/${_r
         "0018-PR-77333-Set-clone-call-fntype-to-callee-type.patch"
         "0017-gcc-7-branch-Enable-std-experimental-filesystem.patch"
         "0130-libstdc++-in-out.patch"
-        "gcc7-pr79665.patch")
+        "gcc7-pr79665.patch"
+        "optimize-at-least-some.patch"
+        "optimize.patch")
 sha256sums=('8a8136c235f64c6fef69cac0d73a46a1a09bb250776a050aec8f9fc880bebc17'
             '6b8b0fd7f81d0a957beb3679c81bbb34ccc7568d5682844d8924424a0dadcb1b'
             '02500a4edd14875f94fe84cbeda4290425cb0c1c2474c6f75d75a303d64b4196'
@@ -70,7 +72,9 @@ sha256sums=('8a8136c235f64c6fef69cac0d73a46a1a09bb250776a050aec8f9fc880bebc17'
             '62dccf1e2e85068ee1060af24162c760ca5d76b0d9690efa62fac9d959b6aac6'
             '4c190efddb73a3e0a7163653e60f299e66dfb172f4d0f2f775fdd80713c1b845'
             '0e24c6955f53a6c84cca9a8c9a372054bd90d5b1a2c6c3f29e36cb350f973b5d'
-            '24524102ba4a4360881e45aea4c0b8fd2f97969f00c0df05e714a9ee6c6b913d')
+            '24524102ba4a4360881e45aea4c0b8fd2f97969f00c0df05e714a9ee6c6b913d'
+            '56d53ca61d8e9489fca706474bdc76fec921b3acbbdcccb289d3fe070d956232'
+            '5ed74becef249266b2cb83c96059180257dae0ccc4aa703f445c98efb5650c51')
 
 prepare() {
   cd ${srcdir}/gcc-${pkgver}
@@ -102,6 +106,8 @@ prepare() {
   patch -p1 -i ${srcdir}/0017-gcc-7-branch-Enable-std-experimental-filesystem.patch
   #patch -p1 -i ${srcdir}/0130-libstdc++-in-out.patch
   #patch -p1 -i ${srcdir}/gcc7-pr79665.patch
+  patch -p1 -i ${srcdir}/optimize.patch
+  patch -p1 -i ${srcdir}/optimize-at-least-some.patch
 
   # 0004-Windows-Don-t-ignore-native-system-header-dir.patch .. but isn't!
   sed -i 's/${prefix}\/mingw\//${prefix}\//g' configure
